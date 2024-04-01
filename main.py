@@ -1,7 +1,10 @@
 import discord
 from discord.ext import commands
+import os
+import json
+#import jiskhau
 import config
-import asyncio
+
 
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
@@ -11,14 +14,17 @@ async def on_connect():
   await bot.change_presence(status=discord.Status.dnd,activity=discord.Activity(type=discord.ActivityType.listening,name="Cloudy "))
 
 
+
 @bot.event
 async def on_ready():
-    await bot.tree.sync()
-    print(f"Logged in as {bot.user}")
+  
+    print(f"Logged In As {bot.user}\nID - {bot.user.id}")
+    print("Zoyx Here!")
+    print(f"logged In as {bot.user.name}")
+    print(f"Total servers ~ {len(bot.guilds)}")
+    print(f"Total Users ~ {len(bot.users)}")
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send("Hello, I am a robot")
+
 
 @bot.hybrid_command()
 @commands.has_permissions(manage_messages = True)
