@@ -34,8 +34,11 @@ async def on_ready():
     print(f"Total servers ~ {len(bot.guilds)}")
     print(f"Total Users ~ {len(bot.users)}")
     await bot.load_extension("cogs.moderation") # loading moderation module
-    print("Loaded module Moderation")
+    print("Loaded module: Moderation")
     time.sleep(0.5)
+    # await bot.load_extension("cogs.music") # loading music commands
+    # print("Loaded module: Music")
+    # time.sleep(0.5)
     print("Registering Slash Commands")
     await bot.tree.sync() # register slash commands
     print("Registerd all Slash Commands")
