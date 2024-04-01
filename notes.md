@@ -1,0 +1,2 @@
+# typing.tuple
+# hybrid command
