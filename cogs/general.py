@@ -1,12 +1,13 @@
+from typing import Optional, Union
 import discord 
 from discord.ext import commands 
-
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
  
 class general1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-@commands.hybrid_command(
+@bot.hybrid_command(
         usage="Avatar [member]",
         name='avatar',
         aliases=['av', 'ac', 'pfp', 'ico'],
