@@ -2,3 +2,5 @@
    basic commands
 
 basic commands = moderation, utility
+
+2. add a error handler
