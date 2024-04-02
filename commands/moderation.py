@@ -7,8 +7,6 @@ from discord.ext import commands
 from discord.ext.commands import Context
 import random
 
-color = random.randint(0, 0xFFFFFF)
-
 class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -38,14 +36,14 @@ class Moderation(commands.Cog, name="moderation"):
         )
         if member.guild_permissions.administrator:
             embed = discord.Embed(
-                description="User has administrator permissions.", color=color
+                description="User has administrator permissions.", color=random.randint(0, 0xFFFFFF)
             )
             await context.send(embed=embed)
         else:
             try:
                 embed = discord.Embed(
                     description=f"**{member}** was kicked by **{context.author}**!",
-                    color=color,
+                    color=random.randint(0, 0xFFFFFF),
                 )
                 embed.add_field(name="Reason:", value=reason)
                 await context.send(embed=embed)
@@ -60,7 +58,7 @@ class Moderation(commands.Cog, name="moderation"):
             except:
                 embed = discord.Embed(
                     description="An error occurred while trying to kick the user. Make sure my role is above the role of the user you want to kick.",
-                    color=color,
+                    color=random.randint(0, 0xFFFFFF),
                 )
                 await context.send(embed=embed)
 
@@ -91,13 +89,13 @@ class Moderation(commands.Cog, name="moderation"):
             await member.edit(nick=nickname)
             embed = discord.Embed(
                 description=f"**{member}'s** new nickname is **{nickname}**!",
-                color=color,
+                color=random.randint(0, 0xFFFFFF),
             )
             await context.send(embed=embed)
         except:
             embed = discord.Embed(
                 description="An error occurred while trying to change the nickname of the user. Make sure my role is above the role of the user you want to change the nickname.",
-                color=color,
+                color=random.randint(0, 0xFFFFFF),
             )
             await context.send(embed=embed)
 
@@ -127,13 +125,13 @@ class Moderation(commands.Cog, name="moderation"):
         try:
             if member.guild_permissions.administrator:
                 embed = discord.Embed(
-                    description="User has administrator permissions.", color=color
+                    description="User has administrator permissions.", color=random.randint(0, 0xFFFFFF)
                 )
                 await context.send(embed=embed)
             else:
                 embed = discord.Embed(
                     description=f"**{member}** was banned by **{context.author}**!",
-                    color=color,
+                    color=random.randint(0, 0xFFFFFF),
                 )
                 embed.add_field(name="Reason:", value=reason)
                 await context.send(embed=embed)
@@ -149,7 +147,7 @@ class Moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="An error occurred while trying to ban the user. Make sure my role is above the role of the user you want to ban.",
-                color=color,
+                color=random.randint(0, 0xFFFFFF),
             )
             await context.send(embed=embed)
 
@@ -173,7 +171,7 @@ class Moderation(commands.Cog, name="moderation"):
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
             description=f"**{context.author}** cleared **{len(purged_messages)-1}** messages!",
-            color=color,
+            color=random.randint(0, 0xFFFFFF),
         )
         await context.channel.send(embed=embed)
 
@@ -204,14 +202,14 @@ class Moderation(commands.Cog, name="moderation"):
             )
             embed = discord.Embed(
                 description=f"**{user}** (ID: {user_id}) was banned by **{context.author}**!",
-                color=color,
+                color=random.randint(0, 0xFFFFFF),
             )
             embed.add_field(name="Reason:", value=reason)
             await context.send(embed=embed)
         except Exception:
             embed = discord.Embed(
                 description="An error occurred while trying to ban the user. Make sure ID is an existing ID that belongs to a user.",
-                color=color,
+                color=random.randint(0, 0xFFFFFF),
             )
             await context.send(embed=embed)
 
