@@ -23,6 +23,7 @@ def load_cogs():
             cogs = filename[:-2]
             bot.load_extension(f'cogs.{"general"}')
             bot.load_extension(f'cogs.{"moderation"}')
+            bot.load_extension(f'cogs.{"voice"}')
 
 
 @bot.event
