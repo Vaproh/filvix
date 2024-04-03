@@ -1,9 +1,14 @@
 # importing discord modules
 import discord
 from discord.ext import commands
+import random
 
 # improting main bot class
 from main import CustomBot
+
+# mentioning embeds
+missing_arg = discord.Embed(title="Error occurred!", description="You did not enter on of the arguements!", color=random.randint(0, 0xFFFFFF))
+
 
 # cog starts here
 class ErrorHandler(commands.Cog):
@@ -15,7 +20,7 @@ class ErrorHandler(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return await ctx.send("This command does not exist.")
         elif isinstance(error, commands.MissingRequiredArgument):
-            return await ctx.send("You are missing a required argument.")
+            return await ctx.send(embed=missing_arg)
         elif isinstance(error, commands.BadArgument):
             return await ctx.send("You provided an invalid argument.")
         elif isinstance(error, commands.CommandOnCooldown):

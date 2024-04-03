@@ -1,20 +1,2 @@
-WARNING    - 2024-04-03 17:31:11,401 - client          : PyNaCl is not installed, voice will NOT be supported
-INFO       - 2024-04-03 17:31:11,402 - client          : logging in using static token
-INFO       - 2024-04-03 17:31:13,396 - gateway         : Shard ID None has connected to Gateway (Session ID: 4479198c1cc42905b06becd0a98711a3).
-ERROR      - 2024-04-03 17:31:28,301 - bot             : Ignoring exception in command ban
-Traceback (most recent call last):
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
-    await ctx.command.invoke(ctx)
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\core.py", line 1021, in invoke
-    await self.prepare(ctx)
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\core.py", line 938, in prepare
-    await self._parse_arguments(ctx)
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\hybrid.py", line 531, in _parse_arguments
-    return await super()._parse_arguments(ctx)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\core.py", line 845, in _parse_arguments
-    transformed = await self.transform(ctx, param, attachments)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\Github\zoynix\.venv\Lib\site-packages\discord\ext\commands\core.py", line 697, in transform
-    raise MissingRequiredArgument(param)
-discord.ext.commands.errors.MissingRequiredArgument: user is a required argument that is missing.
+WARNING    - 2024-04-03 18:02:41,111 - client          : PyNaCl is not installed, voice will NOT be supported
+INFO       - 2024-04-03 18:02:41,112 - client          : logging in using static token

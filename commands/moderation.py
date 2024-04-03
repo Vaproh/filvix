@@ -8,6 +8,7 @@ from discord.ext.commands import Context
 import random
 import time
 from main import CustomBot
+import config
 
 class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot: CustomBot) -> None:
@@ -38,7 +39,7 @@ class Moderation(commands.Cog, name="moderation"):
         )
         if member.guild_permissions.administrator:
             embed = discord.Embed(
-                description="User has administrator permissions.", color=random.randint(0, 0xFFFFFF)
+                description="User has administrator permissions.", color=config.color
             )
             await context.send(embed=embed)
         else:
