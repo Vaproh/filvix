@@ -2,11 +2,12 @@ from typing import Optional, Union
 import discord 
 from discord.ext import commands 
 import random
+from main import CustomBot
 
 color = random.randint(0, 0xFFFFFF)
 
 class General(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: CustomBot):
         self.bot = bot
 
     @commands.hybrid_command(

@@ -6,9 +6,12 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
 import random
+import time
+
+from main import CustomBot
 
 class Moderation(commands.Cog, name="moderation"):
-    def __init__(self, bot) -> None:
+    def __init__(self, bot: CustomBot) -> None:
         self.bot = bot
 
     @commands.hybrid_command(
@@ -248,6 +251,7 @@ class Moderation(commands.Cog, name="moderation"):
                 )
         f = discord.File(log_file)
         await context.send(file=f)
+        time.sleep(1.0)
         os.remove(log_file)
 
 
