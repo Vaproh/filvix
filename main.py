@@ -1,9 +1,9 @@
+# importing discord modules
 import discord
-from discord.ext import commands
-from discord.ext.commands.errors import MissingPermissions
-import os
-import json
-#import jiskhau
+from discord.ext import commands # importing commands module from discord.ext
+
+# importing utility modules
+import time
 import config
 #import cogs
 import time
@@ -23,7 +23,6 @@ def load_cogs():
             cogs = filename[:-2]
             bot.load_extension(f'cogs.{"general"}')
             bot.load_extension(f'cogs.{"moderation"}')
-            bot.load_extension(f'cogs.{"voice"}')
 
 
 @bot.event
