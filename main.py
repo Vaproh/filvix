@@ -1,4 +1,5 @@
 # importing discord modules
+from venv import logger
 import discord
 from discord.ext import commands # importing commands module from discord.ext
 
@@ -7,10 +8,12 @@ import time
 import config
 import signal
 import os
-import logging
 
 # cogs
 exts = ["commands.moderation", "handlers.error_handler"]
+
+# logger
+logger = config.logging.getLogger("bot")
 
 # bot subclass
 class CustomBot(commands.Bot):
@@ -40,8 +43,10 @@ class CustomBot(commands.Bot):
         Total servers ~ {len(bot.guilds)}
         Total Users ~ {len(bot.users)}
         Bot is online!
-        \n\nPress Ctrl+C to exit
-        \n\nLogs:""")
+        \nPress Ctrl+C to exit""")
+
+    async def on_ready(self):
+        logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
 # bot variable
 if __name__ == "__main__":
@@ -50,17 +55,12 @@ if __name__ == "__main__":
     )
 
     # logging in with token
-    bot.run(config.token)
-    # adding a signal handler to handle SIGINT (Ctrl+C)
-    print("""\n\n\n\n\n
-    Answer in yes or no""")
-    keep_logs = str(input("Do you want to clear the screen?: "))
-    if keep_logs == "yes" or "y" or "Y" or "Yes" or "YES":
-        # clearing the screen and proceeding
-        os.system('cls' if os.name == 'nt' else 'clear')
-    elif keep_logs == "no" or "n" or "N" or "No" or "NO":
-        # pass
-        pass
+    bot.run(config.DISCORD_TOKEN, root_logger=True)
+
+    # clearing the screen and proceeding
+    os.system('cls' if os.name == 'nt' else 'clear')
+    # printing sigint receiving
     print("Received SIGINT (Ctrl+C), exiting...")
     time.sleep(2.5)
+    # signal input
     signal.signal(signal.SIGINT, lambda sig, frame: print("Received SIGINT (Ctrl+C), exiting...") or bot.close())
