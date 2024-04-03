@@ -46,3 +46,4 @@ if __name__ == "__main__":
 
     # logging in with token
     bot.run(config.token)
+    print("Bot is online!")
