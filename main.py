@@ -33,8 +33,7 @@ class CustomBot(commands.Bot):
         self.tree.sync
         print("Slash commands are synced successfully!")
 
-    # on ready event
-
+    # on connect event
     async def on_connect(self):
         # intro
         print(f"""Logged In As {bot.user}\nID - {bot.user.id}
@@ -44,7 +43,8 @@ class CustomBot(commands.Bot):
         Total Users ~ {len(bot.users)}
         Bot is online!
         \nPress Ctrl+C to exit""")
-
+    
+    # on ready event
     async def on_ready(self):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
