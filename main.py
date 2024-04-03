@@ -5,6 +5,9 @@ from discord.ext import commands # importing commands module from discord.ext
 # importing utility modules
 import time
 import config
+import signal
+import os
+import logging
 
 # cogs
 exts = ["commands.moderation", "handlers.error_handler"]
@@ -29,14 +32,16 @@ class CustomBot(commands.Bot):
 
     # on ready event
 
-    async def on_ready(self):
+    async def on_connect(self):
         # intro
-        print(f"Logged In As {bot.user}\nID - {bot.user.id}")
-        print("Zoyx Here!")
-        print(f"logged In as {bot.user.name}")
-        print(f"Total servers ~ {len(bot.guilds)}")
-        print(f"Total Users ~ {len(bot.users)}")
-
+        print(f"""Logged In As {bot.user}\nID - {bot.user.id}
+        Zoyx Here!
+        logged In as {bot.user.name}
+        Total servers ~ {len(bot.guilds)}
+        Total Users ~ {len(bot.users)}
+        Bot is online!
+        \n\nPress Ctrl+C to exit
+        \n\nLogs:""")
 
 # bot variable
 if __name__ == "__main__":
@@ -46,4 +51,16 @@ if __name__ == "__main__":
 
     # logging in with token
     bot.run(config.token)
-    print("Bot is online!")
+    # adding a signal handler to handle SIGINT (Ctrl+C)
+    print("""\n\n\n\n\n
+    Answer in yes or no""")
+    keep_logs = str(input("Do you want to clear the screen?: "))
+    if keep_logs == "yes" or "y" or "Y" or "Yes" or "YES":
+        # clearing the screen and proceeding
+        os.system('cls' if os.name == 'nt' else 'clear')
+    elif keep_logs == "no" or "n" or "N" or "No" or "NO":
+        # pass
+        pass
+    print("Received SIGINT (Ctrl+C), exiting...")
+    time.sleep(2.5)
+    signal.signal(signal.SIGINT, lambda sig, frame: print("Received SIGINT (Ctrl+C), exiting...") or bot.close())
