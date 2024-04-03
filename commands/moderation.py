@@ -255,5 +255,5 @@ class Moderation(commands.Cog, name="moderation"):
         os.remove(log_file)
 
 
-async def setup(bot) -> None:
+async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Moderation(bot))

@@ -6,6 +6,8 @@ from discord.ext import commands # importing commands module from discord.ext
 import time
 import config
 
+# cogs
+exts = ["commands.moderation", "handlers.error_handler"]
 
 # bot subclass
 class CustomBot(commands.Bot):
@@ -15,18 +17,20 @@ class CustomBot(commands.Bot):
 
     # Here you are overriding the default start method and write your own code.
     async def setup_hook(self) -> None:
-        await bot.load_extension("commands.moderation") # moderation module load
-        print("Loaded Moderation module")
-        time.sleep(0.5)
-        # await bot.load_extension("commands.general") #general module load
-        # print("Loaded General module")
-        # time.sleep(0.5)
-        print("Registering Slash Commands")
-        await bot.tree.sync() # register slash commands
-        print("Registered all Slash Commands")
+        print("loading cogs...")
+        # loading cogs
+        for ext in exts:
+            await self.load_extension(ext)
+        print("All cogs are loaded successfully!")
+        print("Syncing slash commands...")
+        # syncing slash commands
+        self.tree.sync
+        print("Slash commands are synced successfully!")
+
+    # on ready event
 
     async def on_ready(self):
-        # into
+        # intro
         print(f"Logged In As {bot.user}\nID - {bot.user.id}")
         print("Zoyx Here!")
         print(f"logged In as {bot.user.name}")
