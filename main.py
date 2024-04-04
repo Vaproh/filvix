@@ -8,10 +8,13 @@ import time
 import config
 import signal
 import os
-import logging
+import wavelink
 
 # cogs
 exts = ["commands.moderation", "handlers.error_handler"]
+
+# logger
+logger = config.logging.getLogger("bot")
 
 # bot subclass
 class CustomBot(commands.Bot):
@@ -27,12 +30,23 @@ class CustomBot(commands.Bot):
             await self.load_extension(ext)
         print("All cogs are loaded successfully!")
         print("Syncing slash commands...")
+ 
         # syncing slash commands
         self.tree.sync
         print("Slash commands are synced successfully!")
+        
+        # connecting wavelink
+        print("connecting wavelink...")
+        time.sleep(0.1)
+        print("connecting wavelink..")
+        nodes = [wavelink.Node(uri="http://13.201.64.18:2333", password="Doom129")] # decalring nodes variable
+        time.sleep(0.1)
+        print("connecting wavelink.")
+        await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
+        time.sleep(0.1)
+        print("Wavelink connected successfully!")
 
-    # on ready event
-
+    # on connect event
     async def on_connect(self):
         # intro
         print(f"""Logged In As {bot.user}\nID - {bot.user.id}
@@ -41,8 +55,11 @@ class CustomBot(commands.Bot):
         Total servers ~ {len(bot.guilds)}
         Total Users ~ {len(bot.users)}
         Bot is online!
-        \n\nPress Ctrl+C to exit
-        \n\nLogs:""")
+        \nPress Ctrl+C to exit""")
+    
+    # on ready event
+    async def on_ready(self):
+        logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
 # bot variable
 if __name__ == "__main__":
@@ -51,17 +68,13 @@ if __name__ == "__main__":
     )
 
     # logging in with token
-    bot.run(config.token)
-    # adding a signal handler to handle SIGINT (Ctrl+C)
-    print("""\n\n\n\n\n
-    Answer in yes or no""")
-    keep_logs = str(input("Do you want to clear the screen?: "))
-    if keep_logs == "yes" or "y" or "Y" or "Yes" or "YES":
-        # clearing the screen and proceeding
-        os.system('cls' if os.name == 'nt' else 'clear')
-    elif keep_logs == "no" or "n" or "N" or "No" or "NO":
-        # pass
-        pass
+    bot.run(config.DISCORD_TOKEN, root_logger=True)
+
+    # clearing the screen and proceeding
+    os.system('cls' if os.name == 'nt' else 'clear')
+    # printing sigint receiving
     print("Received SIGINT (Ctrl+C), exiting...")
     time.sleep(2.5)
+    # signal input
     signal.signal(signal.SIGINT, lambda sig, frame: print("Received SIGINT (Ctrl+C), exiting...") or bot.close())
+    
