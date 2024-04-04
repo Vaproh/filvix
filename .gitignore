@@ -4,5 +4,6 @@ commands/__pycache__/
 handlers/__pycache__
 
 # logs
-logs/infos.log
+logs/*.log
 *.log
+logs/infos.log
