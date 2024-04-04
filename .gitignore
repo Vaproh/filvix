@@ -2,8 +2,3 @@
 __pycache__/
 commands/__pycache__/
 handlers/__pycache__
-
-# logs
-logs/*.log
-*.log
-logs/infos.log
