@@ -9,7 +9,7 @@ from discord.ext.commands import Context
 from main import CustomBot
 import config
 
-class utility(commands.Cog, name="utility"):
+class Utility(commands.Cog, name="utility"):
     def __init__(self, bot: CustomBot) -> None:
         self.bot = bot
 
@@ -71,6 +71,5 @@ async def ping(self, ctx):
                          else ctx.author.default_avatar.url)
         await ctx.reply(embed=embed)
 
-
-
-
+async def setup(bot: CustomBot) -> None:
+    await bot.add_cog(Utility(bot))
