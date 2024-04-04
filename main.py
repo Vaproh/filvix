@@ -77,4 +77,3 @@ if __name__ == "__main__":
     time.sleep(2.5)
     # signal input
     signal.signal(signal.SIGINT, lambda sig, frame: print("Received SIGINT (Ctrl+C), exiting...") or bot.close())
-    
