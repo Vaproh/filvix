@@ -62,6 +62,7 @@ class CustomBot(commands.Bot):
     async def on_ready(self):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
     
+    # wavelink node ready
     async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
         logger.info(f"Wavelink Node connected: {payload.node!r} | Resumed: {payload.resumed}")
 
@@ -87,6 +88,8 @@ class CustomBot(commands.Bot):
             embed.add_field(name="Album", value=track.album.name)
 
         await player.home.send(embed=embed)
+        
+        print(f"A track has started on {discord.VoiceChannel.name} inb guild {discord.Guild.name} and track name is {track}")
 
 # bot variable
 if __name__ == "__main__":
