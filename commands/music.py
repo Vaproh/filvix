@@ -18,26 +18,21 @@ class Music(commands.Cog):
     # join command
     @commands.hybrid_command(
         name="join",
-        description="join the user vc."
+        description="join the user vc.",
         )
     async def join(self, ctx):
         channel = ctx.message.author.voice.channel
         if channel:
             self.vc = channel.connect(cls=wavelink.Player)
             await self.vc
-            await ctx.send(f"Joined {channel.name}")
-
+            await ctx.send(f"Joined `{channel.name}`")
     
     @commands.hybrid_command(
         name="add",
-        description="add the named song"
+        description="add the named song",
         )
     async def add(self, ctx, *, title: str):
-        tracks: wavelink.Search = await wavelink.Playable.search(title)
-        if not tracks:
-            ctx.send("No results found.")
-            return
-        
+        ...
 
 
     @commands.hybrid_command

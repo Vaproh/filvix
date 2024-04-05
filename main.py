@@ -11,7 +11,7 @@ import os
 import wavelink
 
 # cogs
-exts = ["commands.moderation", "handlers.error_handler"]
+exts = ["commands.moderation", "commands.music"]#, "handlers.error_handler"]
 
 # logger
 logger = config.logging.getLogger("bot")
