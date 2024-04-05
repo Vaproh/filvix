@@ -9,15 +9,24 @@ from os import startfile
 import sys
 import time
 import psutil
+import random
 
 # importing custom bot
 from main import CustomBot
 
+# get virtual mem usage
+def get_virtual_memory_usage():
+  """Get the virtual memory usage."""
 
+  vm = psutil.virtual_memory()
+  return vm.used
+
+# cog starts here
 class Utility(commands.Cog):
     def __init__(self, bot: CustomBot):
         self.bot = bot
 
+    # botinfo command
     @commands.hybrid_command(name="botinfo",
                                 aliases=['bi'],
                                 help="Get info about me!",with_app_command = True)
@@ -30,8 +39,10 @@ class Utility(commands.Cog):
 
                 # Round the CPU usage to the nearest integer
                 cpu_usage = round(cpu_usage)
-                embed = discord.Embed(color=0x0d0d13,
-                                title="heavens's Information",
+                
+                # embed
+                embed = discord.Embed(color=random.randint(0, 0xFFFFFF),
+                                title= str(self.bot.user.name).capitalize() + " " + "Information",
                                 description=f"""
         **Bot's Mention:** {self.bot.user.mention}
         **Bot's Username:** {self.bot.user}
@@ -40,8 +51,7 @@ class Utility(commands.Cog):
         **Total Channels:** {channel}
         **Total Commands: **{len(set(self.bot.walk_commands()))}
         **CPU usage:** {cpu_usage}%
-        **Memory usage:** {int((util.virtual_memory().total - util.virtual_memory().available)
-        / 1024 / 1024)} MB
+        **Memory usage:** {int(get_virtual_memory_usage() / 1024 / 1024)} MB
         **My Websocket Latency:** {int(self.bot.latency * 1000)} ms
         **Python Version:** {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}
         **Discord.py Version:** {discord.__version__}
@@ -52,6 +62,23 @@ class Utility(commands.Cog):
                 embed.set_thumbnail(url=self.bot.user.avatar.url)
                 await ctx.send(embed=embed)
     
+    # ping command
+    @commands.hybrid_command(name="ping",
+                             aliases=["latency"],
+                             usage="Checks the bot latency.",with_app_command = True,
+                             help="Checks the bot latency.")
+   
+    async def ping(self, ctx):
+            embed = discord.Embed(
+                title="""
+                <:2984goodping:1225411097419579395> Ping! """,
+                description=f"<:5909_SayoriSleep:1225411999463247912> **__websocket Latency__** :  {int(self.bot.latency * 1000)} **__ms__**",
+                color=random.randint(0, 0xFFFFFF))
+            embed.set_footer(
+                            icon_url=ctx.author.avatar.url if ctx.author.avatar
+                            else ctx.author.default_avatar.url)
+            await ctx.reply(embed=embed)
 
+# add cogs
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Utility(bot))

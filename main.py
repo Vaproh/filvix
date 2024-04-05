@@ -11,7 +11,7 @@ import os
 import wavelink
 
 # cogs
-exts = ["commands.moderation", "commands.music"]#, "commands.utility"]#, "handlers.error_handler"]
+exts = ["commands.moderation", "commands.music", "commands.utility"]#, "handlers.error_handler"]
 
 # logger
 logger = config.logging.getLogger("bot")
@@ -31,10 +31,6 @@ class CustomBot(commands.Bot):
             await self.load_extension(ext)
         print("All cogs are loaded successfully!")
         print("Syncing slash commands...")
- 
-        # syncing slash commands
-        self.tree.sync
-        print("Slash commands are synced successfully!")
         
         # connecting wavelink
         print("connecting wavelink...")
@@ -57,6 +53,10 @@ class CustomBot(commands.Bot):
         Total Users ~ {len(bot.users)}
         Bot is online!
         \nPress Ctrl+C to exit""")
+        
+        # syncing slash commands
+        self.tree.sync
+        print(f"Slash commands are synced successfully for user {self.user.name} in {len(self.guilds)} servers!")
     
     # on ready event
     async def on_ready(self):
@@ -89,7 +89,7 @@ class CustomBot(commands.Bot):
 
         await player.home.send(embed=embed)
         
-        print(f"A track has started on {discord.VoiceChannel.name} inb guild {discord.Guild.name} and track name is {track}")
+        print(f"A track has started on {player.channel.name} in guild {player.guild.name} and track name is {track}")
 
 # bot variable
 if __name__ == "__main__":

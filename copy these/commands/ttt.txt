@@ -1,0 +1,53 @@
+if badge.lower() in ["dev", "developer", "devp"]:
+            idk = "**<a:developer:1037817306266472488>・DEVELOPER**"
+            ok.append(idk)
+            makebadges(member.id, ok)
+            embed2 = discord.Embed(
+        
+          
+    
+                description=
+                f"<:tick36:1103568286349795388> | **Successfully Added `Developer` Badge To {member}**",
+                color=0x00FFCA)
+            await ctx.reply(embed=embed2)
+        elif badge.lower() in ["king", "owner"]:
+            idk = "**<:343534:1092373301411709008>・OWNER**"
+            ok.append(idk)
+            makebadges(member.id, ok)
+            embed8 = discord.Embed(
+                
+                description=
+                f"<:tick36:1103568286349795388> | **Successfully Added `OWNER` Badge To {member}**",
+                color=0x00FFCA)
+            await ctx.reply(embed=embed8)
+        elif badge.lower() in ["co", "coowner"]:
+            idk = "**<:343534:1092373301411709008>・CO OWNER**"
+            ok.append(idk)
+            makebadges(member.id, ok)
+            embed12 = discord.Embed(
+                
+                description=
+                f"<:tick36:1103568286349795388> | **Successfully Added `CO OWNER` Badge To {member}**",
+                color=0x00FFCA)
+            await ctx.reply(embed=embed12)
+        elif badge.lower() in ["admin", "ad"]:
+            idk = "**<:ad54:1098168657579872277>・ADMIN**"
+            ok.append(idk)
+            makebadges(member.id, ok)
+            embed20 = discord.Embed(
+                
+                description=
+                f"<:tick36:1103568286349795388> | **Successfully Added `ADMIN` Badge To {member}**",
+                color=0x00FFCA)
+            await ctx.reply(embed=embed20)
+        elif badge.lower() in ["mods", "moderator"]:
+            idk = "**<:Mod34:1098167628989726791>・MODERATOR**"
+            ok.append(idk)
+            makebadges(member.id, ok)
+            embed15 = discord.Embed(
+                
+                description=
+                f"<:tick36:1103568286349795388> | **Successfully Added `MODERATOR` Badge To {member}**",
+                color=0x00FFCA)
+            await ctx.reply(embed=embed15)
+                          
