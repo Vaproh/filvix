@@ -16,7 +16,7 @@ class Music(commands.Cog):
         self.bot = bot
     
     # play command
-    @commands.hybrid_command()
+    @commands.hybrid_command(aliases=["p", "play_song"])
     async def play(self, ctx, *, query: str) -> None:
         """Play a song with the given query."""
         if not ctx.guild:
@@ -129,7 +129,7 @@ class Music(commands.Cog):
 
 
     # Disconnect command
-    @commands.hybrid_command(aliases=["dc"])
+    @commands.hybrid_command(aliases=["dc", "stop"])
     async def disconnect(self, ctx) -> None:
         """Disconnect the Player."""
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)

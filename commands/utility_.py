@@ -1,35 +1,33 @@
-# importing discord modules
-import discord
-from discord.ext import commands
-
-# importing utility modules
 from ctypes import util
 import datetime
 from os import startfile
 import sys
 import time
-import psutil
-
-# importing custom bot
+import discord 
+from discord.ext import commands 
+from discord.ext.commands import Context
 from main import CustomBot
+import config
 
-
-class Utility(commands.Cog):
-    def __init__(self, bot: CustomBot):
+class Utility(commands.Cog, name="Uttility"):
+    def __init__(self, bot: CustomBot) -> None:
         self.bot = bot
+        
+class utility(commands.Cog, name="utility"):
+    def __init__(self, bot: CustomBot) -> None:
+        self.bot = bot
+    
 
-    @commands.hybrid_command(name="botinfo",
+
+        #botinfo------------>
+
+        @commands.hybrid_command(name="botinfo",
                                 aliases=['bi'],
                                 help="Get info about me!",with_app_command = True)
-    async def botinfo(self, ctx: commands.Context):
+        async def botinfo(self, ctx: commands.Context):
                 users = sum(g.member_count for g in self.bot.guilds
                         if g.member_count != None)
                 channel = len(set(self.bot.get_all_channels()))
-                # Get the CPU usage as a percentage
-                cpu_usage = psutil.cpu_percent()
-
-                # Round the CPU usage to the nearest integer
-                cpu_usage = round(cpu_usage)
                 embed = discord.Embed(color=0x0d0d13,
                                 title="heavens's Information",
                                 description=f"""
@@ -39,7 +37,9 @@ class Utility(commands.Cog):
         **Total Users:** {users}
         **Total Channels:** {channel}
         **Total Commands: **{len(set(self.bot.walk_commands()))}
-        **CPU usage:** {cpu_usage}%
+        **Total Shards:** {len(self.bot.shards)}
+        **Uptime:** {str(datetime.timedelta(seconds=int(round(time.time()-startfile))))}
+        **CPU usage:** {round(util.cpu_percent())}%
         **Memory usage:** {int((util.virtual_memory().total - util.virtual_memory().available)
         / 1024 / 1024)} MB
         **My Websocket Latency:** {int(self.bot.latency * 1000)} ms
@@ -51,7 +51,30 @@ class Utility(commands.Cog):
                                 else ctx.author.default_avatar.url)
                 embed.set_thumbnail(url=self.bot.user.avatar.url)
                 await ctx.send(embed=embed)
-    
+
+
+
+
+
+
+
+#Ping------------>
+
+
+@commands.hybrid_command(name="ping",
+                             aliases=["latency"],
+                             usage="Checks the bot latency .",with_app_command = True)
+   
+async def ping(self, ctx):
+        embed = discord.Embed(
+            title="""
+            <:2984goodping:1225411097419579395> Ping! """,
+            description=f"<:5909_SayoriSleep:1225411999463247912> **__websocket Latency__** :  {int(self.bot.latency * 1000)} **__ms__**",
+            color=0x0f8be2)
+        embed.set_footer(
+                         icon_url=ctx.author.avatar.url if ctx.author.avatar
+                         else ctx.author.default_avatar.url)
+        await ctx.reply(embed=embed)
 
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Utility(bot))
