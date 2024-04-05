@@ -24,6 +24,7 @@ class CustomBot(commands.Bot):
 
     # Here you are overriding the default start method and write your own code.
     async def setup_hook(self) -> None:
+        
         print("loading cogs...")
         # loading cogs
         for ext in exts:
@@ -60,6 +61,32 @@ class CustomBot(commands.Bot):
     # on ready event
     async def on_ready(self):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
+    
+    async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
+        logger.info(f"Wavelink Node connected: {payload.node!r} | Resumed: {payload.resumed}")
+
+    async def on_wavelink_track_start(self, payload: wavelink.TrackStartEventPayload) -> None:
+        player: wavelink.Player | None = payload.player
+        if not player:
+            # Handle edge cases...
+            return
+
+        original: wavelink.Playable | None = payload.original
+        track: wavelink.Playable = payload.track
+
+        embed: discord.Embed = discord.Embed(title="Now Playing")
+        embed.description = f"**{track.title}** by `{track.author}`"
+
+        if track.artwork:
+            embed.set_image(url=track.artwork)
+
+        if original and original.recommended:
+            embed.description += f"\n\n`This track was recommended via {track.source}`"
+
+        if track.album.name:
+            embed.add_field(name="Album", value=track.album.name)
+
+        await player.home.send(embed=embed)
 
 # bot variable
 if __name__ == "__main__":
