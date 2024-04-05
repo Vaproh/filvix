@@ -4,7 +4,7 @@ from tabnanny import verbose
 
 # token
 DISCORD_TOKEN =(
-"MTIyMzI2NzIyNjcxOTc0ODE5Nw.G03EhI.fZeWbIPotn1NloOKvv7_6PcGh9frsW3BPnv0iw"
+"MTIyMzI2NzIyNjcxOTc0ODE5Nw.GkMoZ6.rU14H6Bqv3szbk5P8pbOpu5sDxdZJusQbJeOxI"
 )
 
 # logger dict and func
