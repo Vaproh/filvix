@@ -1837,5 +1837,41 @@ class moderation(commands.Cog):
         page = PaginationView(embed_list=ls, ctx=ctx)
         await page.start(ctx)
 
+    #Snipe Command
+    @commands.guild_only()
+    @commands.has_permissions(view_audit_log=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.hybrid_command(name="snipe",
+                             help="Snipes the most recent deleted message",
+                             usage="snipe")
+    async def snipe(self, ctx: commands.Context):
+        message = self.sniped.get(ctx.channel.id)
+        if message == None:
+            return await ctx.send(embed=discord.Embed(
+                title="Snipe",
+                description="There are no recently deleted messages",
+                color=0x0d0d13))
+        embed = discord.Embed(title="Sniped Message sent by %s" %
+                              (message.author),
+                              description=message.content,
+                              color=0x00FFCA,
+                              timestamp=message.created_at)
+        await ctx.send(embed=embed)
+
+ #Ignore Command   
+@commands.group(name="ignore", invoke_without_command=True)
+@commands.cooldown(1, 5, commands.BucketType.user)
+@commands.max_concurrency(1, per=commands.BucketType.default, wait=False)
+@commands.guild_only()
+@commands.has_permissions(administrator=True)
+async def _ignore(self, ctx):
+        if ctx.subcommand_passed is None:
+            await ctx.send_help(ctx.command)
+            ctx.command.reset_cooldown(ctx)
+
+
+
+
+
 async def setup(bot):
     await bot.add_cog(moderation(bot))

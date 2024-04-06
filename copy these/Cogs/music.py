@@ -3,7 +3,7 @@ import wavelink , asyncio
 from collections import deque
 import re
 from discord.ext import commands
-from wavelink.ext import spotify
+from wavelink import spotify
 ray="https://discord.gg/BkEks27yvx"
 class music(commands.Cog):
     def __init__(self, bot):

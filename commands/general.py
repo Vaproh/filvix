@@ -1,7 +1,6 @@
 from typing import Optional, Union
 import discord 
 from discord.ext import commands 
-import random
 from main import CustomBot
 
 class General(commands.Cog):
@@ -16,6 +15,7 @@ class General(commands.Cog):
         embed.set_image(url=self.author.avatar_url)
         await ctx.send(embed=embed)
 
-        # add cogs
+
+# add cogs
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(General(bot))
