@@ -36,7 +36,7 @@ class CustomBot(commands.Bot):
         print("connecting wavelink...")
         time.sleep(0.1)
         print("connecting wavelink..")
-        nodes = [wavelink.Node(uri="http://13.201.64.18:2333", password="Doom129")] # decalring nodes variable
+        nodes = [wavelink.Node(uri="http://15.207.84.229:2333", password="Doom129")] # decalring nodes variable
         time.sleep(0.1)
         print("connecting wavelink.")
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
