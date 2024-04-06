@@ -3,10 +3,7 @@ import discord
 from discord.ext import commands
 
 # importing utility modules
-from ctypes import util
-import datetime
 import sys
-import time
 import psutil
 import random
 
