@@ -68,16 +68,29 @@ class Utility(commands.Cog):
                              usage="Checks the bot latency.",with_app_command = True,
                              help="Checks the bot latency.")
    
-    async def ping(self, ctx):
-            embed = discord.Embed(
+async def ping(self, ctx):
+    embed = discord.Embed(
                 title="""
                 <:2984goodping:1225411097419579395> Ping! """,
                 description=f"<:5909_SayoriSleep:1225411999463247912> **__websocket Latency__** :  {int(self.bot.latency * 1000)} **__ms__**",
                 color=random.randint(0, 0xFFFFFF))
-            embed.set_footer(
+        embed.set_footer(
                             icon_url=ctx.author.avatar.url if ctx.author.avatar
                             else ctx.author.default_avatar.url)
-            await ctx.reply(embed=embed)
+    await ctx.reply(embed=embed)
+
+@commands.hybrid_command(name="invite", aliases=['inv'])
+async def invite(self, ctx: commands.Context):
+        embed = discord.Embed(
+            description=
+            "> • [Click Here To Invite Zoynix To Your Server](https://discord.com/oauth2/authorize?client_id=1213860294301061122&permissions=8&scope=bot)\n> • [Click Here To Join My Support Server](https://discord.gg/sxhGCtjX9R)",
+            color=0x0565ff)
+        embed.set_author(name=f"{ctx.author.name}",
+                         icon_url=f"{ctx.author.avatar}")
+        await ctx.send(embed=embed)
+
+
+
 
 # add cogs
 async def setup(bot: CustomBot) -> None:
