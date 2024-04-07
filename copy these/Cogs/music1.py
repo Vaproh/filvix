@@ -3,7 +3,6 @@ import wavelink , asyncio
 from collections import deque
 import re
 from discord.ext import commands
-from wavelink import spotify
 ray="https://discord.gg/BkEks27yvx"
 class music(commands.Cog):
     def __init__(self, bot):
@@ -29,7 +28,7 @@ class music(commands.Cog):
             embed2 = discord.Embed(description="You are not in the same voice channel.", colour=self.color)
             return await ctx.reply(embed=embed2, mention_author=False)
         if vc.is_paused():
-            embed3 = discord.Embed(description="I am currently paused please use `&resume`.",colour=self.color)
+            embed3 = discord.Embed(description="I am currently paused please use `!resume`.",colour=self.color)
             return await ctx.reply(embed=embed3, mention_author=False)          
         url_pattern = r'(https?://\S+)'
         urls = re.findall(url_pattern, query)

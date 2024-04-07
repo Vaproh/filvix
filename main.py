@@ -9,6 +9,7 @@ import config
 import signal
 import os
 import wavelink
+import json
 
 # cogs
 exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin"]#, "handlers.error_handler"]
@@ -21,7 +22,7 @@ class CustomBot(commands.Bot):
     def __init__(self, command_prefix: str, intents: discord.Intents, *args, **kwargs) -> None:
         # Forward all arguments, and keyword-only arguments to commands.Bot
         super().__init__(command_prefix, intents=intents, *args, **kwargs)
-
+    
     # Here you are overriding the default start method and write your own code.
     async def setup_hook(self) -> None:
         
@@ -79,7 +80,12 @@ class CustomBot(commands.Bot):
         embed.description = f"**{track.title}** by `{track.author}`"
 
         if track.artwork:
-            embed.set_image(url=track.artwork)
+            embed.set_thumbnail(url=track.artwork)
+            
+        if track.length:
+        # Convert track length from milliseconds to minutes and seconds
+            minutes, seconds = divmod(track.length / 1000, 60)
+            embed.add_field(name="Duration", value=f"{minutes:02.0f}:{seconds:02.0f}")
 
         if original and original.recommended:
             embed.description += f"\n\n`This track was recommended via {track.source}`"
@@ -90,6 +96,8 @@ class CustomBot(commands.Bot):
         await player.home.send(embed=embed)
         
         print(f"A track has started on {player.channel.name} in guild {player.guild.name} and track name is {track}")
+
+CustomBot.owner_ids = [575555247557312512, 1092184838225809458,1043194242476036107]
 
 # bot variable
 if __name__ == "__main__":
