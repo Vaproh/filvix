@@ -20,7 +20,7 @@ os.environ["JISHAKU_HIDE"] = "True"
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
-#
+# Jishaku Owner Id 
 bot = commands.Bot(command_prefix="!", intents=discord.intents)
 bot.add_cog(jishaku.cog.Jishaku(bot=bot, hide=True, blacklist=["reload", "unload"]))
 bot.owner_id = 1195470182831894558 , 575555247557312512 
