@@ -9,6 +9,7 @@ import psutil
 import random
 import datetime
 from datetime import timezone
+import json
 
 # importing custom bot
 from main import CustomBot
@@ -24,6 +25,7 @@ def get_virtual_memory_usage():
 class Utility(commands.Cog):
     def __init__(self, bot: CustomBot):
         self.bot = bot
+        self.custom_responses = self.load_custom_responses()
 
     # botinfo command
     @commands.hybrid_command(name="botinfo",
@@ -262,6 +264,53 @@ class Utility(commands.Cog):
                     icon_url=ctx.author.avatar.url
                     if ctx.author.avatar else ctx.author.default_avatar.url)
         await ctx.send(embed=embed)
+
+
+     # Auto Responder  
+    def load_custom_responses(self):
+        try:
+            with open("custom_responses.json", "r") as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {}
+
+    def save_custom_responses(self):
+        with open("custom_responses.json", "w") as f:
+            json.dump(self.custom_responses, f)
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author == self.client.user:
+            return  # Don't respond to the bot's own messages
+        content = message.content.lower()
+
+        # Check if the message content is a trigger for a custom response
+        if content in self.custom_responses:
+            response = self.custom_responses[content]
+            await message.channel.send(response)
+        # Add more conditional statements for other responses as needed
+
+    @commands.command(name="addresponse", help="Add a custom response for a trigger.")
+    @commands.has_permissions(administrator=True)
+    async def add_custom_response(self, ctx, trigger, *, response):
+        # Allow only administrators to add custom responses
+        self.custom_responses[trigger.lower()] = response
+        self.save_custom_responses()
+        await ctx.send(f"Custom response added for trigger: {trigger}")
+
+    @commands.command(
+        name="removeresponse", help="Remove a custom response for a trigger."
+    )
+    @commands.has_permissions(administrator=True)
+    async def remove_custom_response(self, ctx, trigger):
+        # Allow only administrators to remove custom responses
+        if trigger.lower() in self.custom_responses:
+            del self.custom_responses[trigger.lower()]
+            self.save_custom_responses()
+            await ctx.send(f"Custom response removed for trigger: {trigger}")
+        else:
+            await ctx.send(f"No custom response found for trigger: {trigger}")
+
 
 # add cogs
 async def setup(bot: CustomBot) -> None:

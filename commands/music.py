@@ -22,33 +22,6 @@ os.environ["JISHAKU_HIDE"] = "True"
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
-
-#jiskhau Owner Id ( Not Working )
-def is_owner_():
-    async def predicate(ctx):
-        # Check if the user is the owner of the bot or has a specific role
-        return ctx.author.id == 1195470182831894558  
-    return commands.check(predicate)
-
-
-
-# just read the func name ;-;
-def convert_to_minutes(milliseconds: int) -> str:
-    """Converts milliseconds to minutes and seconds in a proper way.
-
-    Args:
-        milliseconds (int): The number of milliseconds to convert.
-
-    Returns:
-        str: The converted time in minutes and seconds.
-    """
-
-    seconds, milliseconds = divmod(milliseconds, 1000)
-    minutes, seconds = divmod(seconds, 60)
-    return f"{minutes:02.0f}:{seconds:02.0f}"
-
-
-
 # class starts here
 class Music(commands.Cog):
     def __init__(self, bot: CustomBot):
