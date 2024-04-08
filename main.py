@@ -10,9 +10,10 @@ import signal
 import os
 import wavelink
 import json
+import jishaku
 
 # cogs
-exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin"]#, "handlers.error_handler"]
+exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin", "jishaku"]#, "handlers.error_handler"]
 
 # logger
 logger = config.logging.getLogger("bot")
@@ -37,7 +38,7 @@ class CustomBot(commands.Bot):
         print("connecting wavelink...")
         time.sleep(0.1)
         print("connecting wavelink..")
-        nodes = [wavelink.Node(uri="http://15.207.84.229:2333", password="Doom129")] # decalring nodes variable
+        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129")] # decalring nodes variable
         time.sleep(0.1)
         print("connecting wavelink.")
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
@@ -97,7 +98,7 @@ class CustomBot(commands.Bot):
         
         print(f"A track has started on {player.channel.name} in guild {player.guild.name} and track name is {track}")
 
-CustomBot.owner_ids = [575555247557312512, 1092184838225809458,1043194242476036107]
+
 
 # bot variable
 if __name__ == "__main__":

@@ -12,15 +12,7 @@ import wavelink
 from typing import cast
 
 # importing utility modules
-import jishaku
 import os
-import time
-
-# env variables
-os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
-os.environ["JISHAKU_HIDE"] = "True"
-os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
 # just read the func name ;-;
 def convert_to_minutes(milliseconds: int) -> str:
@@ -192,9 +184,15 @@ class Music(commands.Cog):
         await ctx.send("Player is now " + ("paused" if player.paused else "resumed") + ".")
 
     # volume command
-    @commands.hybrid_command(aliases=["vol"])
-    async def volume(self, ctx, value: int) -> None:
-        """Change the volume of the player."""
+    @commands.command(aliases=['vol'])
+    async def volume(self, ctx: commands.Context , _volume: typing.Optional[int]):
+        """
+        Set the volume of the bot.
+        {command_prefix}{command_name} volume
+        volume(optional): The volume for the music playing. If not provide, return current volume
+        {command_prefix}{command_name} 200
+        NOTE: max is 100, and makes it inaudible.
+        """
         
         # checking bot is in vc, user is in vc,etc
         if not ctx.voice_client:
@@ -203,17 +201,23 @@ class Music(commands.Cog):
         if ctx.voice_client is None:
             embed2 = discord.Embed(description="You are not in a voice channel.")
             return await ctx.reply(embed=embed2) # user is not in vc
-        vc: wavelink.Player = ctx.voice_client 
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
         if ctx.author.voice.channel.id != vc.channel.id:
             embed4 = discord.Embed(description="You are in not the same voice channel.")
             return await ctx.reply(embed=embed4) # user is not in the same channel as bot
         
-        player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
-        if not player:
-            return
-
-        await player.set_volume(value)
-        await ctx.send(f"Volume set to {value}.")
+        # NOTE: Rate limit volume updating later when more servers added
+        player:wavelink.Player = typing.cast(wavelink.Player,ctx.voice_client)
+        if not _volume:
+            return await ctx.send(f'Volume: **{player.volume}%**')
+        elif _volume >100:
+            await ctx.send("Cannot exceed 100 volume hard limit.")
+        else:
+            await player.set_volume(_volume)
+            return await ctx.send(f"Set volume to {_volume}")
 
     # Disconnect command
     @commands.hybrid_command(aliases=["dc", "disconnect"])
@@ -474,8 +478,9 @@ class Music(commands.Cog):
         removed_track = player.queue.remove(index - 1)
         await ctx.send(f"Removed **`{removed_track.title}`** from the queue.")
 
+    # skip to command
     @commands.command()
-    async def skipto(self, ctx, position: int) -> None:
+    async def skipto(self, ctx: commands.Context, position: int) -> None:
         """Skip to a specific song in the queue."""
 
         # checking bot is in vc, user is in vc,etc
@@ -506,14 +511,44 @@ class Music(commands.Cog):
                 return await ctx.send(f"Position exceeds queue count of {len(player.queue)}")
             else:
                 new_track = player.queue[position-1]
-                player.queue.delete(position-1)
+                await player.queue.delete(position-1)
                 await player.play(new_track)
-        
+                
         await ctx.send(f"Skipped to **`{player.current.title}`**.")
-
     
-
+    # seek command
+    @commands.command()
+    async def seek(self,ctx: commands.Context,position:int):
+        """
+        Jump to a specific in the current audio playing. Value must be in seconds.
+        {command_prefix}{command_name} track_time
+        track(required): The time to skip to in seconds
+        {command_prefix}{command_name} 120
+        """
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+            
+        if isinstance(position,str):
+            position = int(position)
+        position*1000
+        player:wavelink.Player = typing.cast(wavelink.Player,ctx.voice_client)
+        if position >= player.current.length:
+            return await ctx.send("Position exceeds or equals to song duration")
+        
+        return await player.seek(position)
 
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Music(bot))
-    await bot.load_extension("jishaku") 

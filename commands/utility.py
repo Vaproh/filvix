@@ -278,18 +278,6 @@ class Utility(commands.Cog):
         with open("custom_responses.json", "w") as f:
             json.dump(self.custom_responses, f)
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.author == self.client.user:
-            return  # Don't respond to the bot's own messages
-        content = message.content.lower()
-
-        # Check if the message content is a trigger for a custom response
-        if content in self.custom_responses:
-            response = self.custom_responses[content]
-            await message.channel.send(response)
-        # Add more conditional statements for other responses as needed
-
     @commands.command(name="addresponse", help="Add a custom response for a trigger.")
     @commands.has_permissions(administrator=True)
     async def add_custom_response(self, ctx, trigger, *, response):
