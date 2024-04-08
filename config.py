@@ -30,15 +30,27 @@ LOGGING_CONFIG = {
             "class": "logging.StreamHandler",
             "formatter": "standard"
         },
+        "console3": {
+            "level": "DEBUG",  # Change the level to a standard logging level
+            "class": "logging.StreamHandler",
+            "formatter": "standard"  
+        },
         "file": {
             "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "logs/infos.log",
             "mode": "w",
             "formatter": "verbose"
-        }
+        },
+        "file2": {
+            "level": "DEBUG",  # Change the level to a standard logging level
+            "class": "logging.FileHandler",
+            "filename": "logs/lavalink.log",
+            "mode": "w",
+            "formatter": "verbose"
+        },
     },
-    "loggers":{
+    "loggers": {
         "bot": {
             "handlers": ["console"],
             "level": "INFO",
@@ -48,6 +60,11 @@ LOGGING_CONFIG = {
             "handlers": ["console2", "file"],
             "level": "INFO",
             "propogate": False
+        },
+        "lavalink": {
+            "handlers": ["console3", "file2"],
+            "level": "DEBUG",  # Change the level to a standard logging level
+            "propogate": False
         }
     }
 }
@@ -56,3 +73,11 @@ dictConfig(LOGGING_CONFIG)
 
 # owner ids
 owner_ids = [575555247557312512, 1195470182831894558, 1092184838225809458]
+
+# colors
+color_main = 0x2D3250 # main color
+color_sec = 0x424769 # secondary color
+color_err = 0x7077A1 # error color
+
+# text
+footer_text = "is Zoynix bot is best right? - 2024"

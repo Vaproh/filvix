@@ -16,6 +16,8 @@ import random
 from io import BytesIO
 import matplotlib
 #from embed import *
+import paginator
+from main import CustomBot
 
 xd = {}
 async def getchannel(guild_id):
@@ -261,9 +263,8 @@ async def do_removal(ctx, limit, predicate, *, before=None, after=None):
         await ctx.send(to_send, delete_after=10)
 
 class moderation(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: CustomBot):
         self.bot = bot
-        self.bot.sniped_messages = {}
         self.bot.role_status = {}
         self.bot.rrole_status = {}
         self.color = 0x0462d4
@@ -275,7 +276,7 @@ class moderation(commands.Cog):
         if ctx.author.id in [1043194242476036107]:
             return
         else:
-            webhook = discord.SyncWebhook.from_url("https://discord.com/api/webhooks/1217136962205515798/Mxbr6ZoM3lt6pEv2my-a-rpXDSGN6YQhSlAtAbi0Zwx6z6G7Yj_nH-YIQUsFON8rt3Gr")
+            webhook = discord.SyncWebhook.from_url("https://discord.com/api/webhooks/1226888630363226112/Emhykx-k_OSGhVKmETneToctptCkzdGwX35eZ6q0fRJLxHnOOisnC_xsERPD2fmO9mQY")
             webhook.send(embed=em, username=f"{str(self.bot.user)} | Command Logs", avatar_url=self.bot.user.avatar.url)
         
     
@@ -586,67 +587,6 @@ class moderation(commands.Cog):
                 await message.clear_reactions()
 
         await ctx.success(f"Successfully removed {total_reactions} reactions.")
-
-    @commands.Cog.listener()
-    async def on_message_delete(self, message: discord.Message):
-      if not message.guild:
-        return
-      if not message.author.bot:
-          if message.guild.me.guild_permissions.view_audit_log:
-              async for i in message.guild.audit_logs(limit=1, after=datetime.datetime.now() - datetime.timedelta(minutes=1, seconds=30), action=discord.AuditLogAction.message_delete):
-                  url = None
-                  for x in message.attachments:
-                      url = x.url
-                  if message.content == "":
-                    content = "***Content Unavailable***"
-                  else:
-                    content = message.content
-                  if i.target == message.author:
-                      self.bot.sniped_messages[message.guild.id] = (content, url, message.author,
-                                                        message.channel,
-                                                        i.user,
-                                                        message.created_at)
-                  else:
-                      self.bot.sniped_messages[message.guild.id] = (content, url, message.author,
-                                                        message.channel,
-                                                        None,
-                                                        message.created_at)
-          else:
-              url = None
-              for x in message.attachments:
-                  url = x.url
-              if message.content == "":
-                  content = "***Content Unavailable***"
-              else:
-                  content = message.content
-              self.bot.sniped_messages[message.guild.id] = (content, url, message.author, message.channel, None, message.created_at)
-
-    @commands.command(description="Snipes the recent message deleted in the channel")
-    async def snipe(self, ctx, channel: discord.TextChannel = None):
-        if not channel:
-            channel = ctx.channel
-        try:
-            contents, url, author, channel_xyz, mod, time = self.bot.sniped_messages[ctx.guild.id]
-        except:
-            await ctx.channel.send("<:crosss:1212440602659262505>   Couldn't find a message to snipe!")
-            return
-        if channel_xyz.id == channel.id:
-            embed = discord.Embed(description=f":put_litter_in_its_place: Message sent by {author.mention} deleted in {channel_xyz.mention}",
-                                color=0x0462d4,
-                                timestamp=time)
-            embed.add_field(name="__Content__:",
-                                  value=f"{contents}",
-                                  inline=False)
-            if mod is not None:
-                embed.add_field(name="**Deleted By:**",
-                                value=f"{mod.mention} (ID: {mod.id})")
-            if url is not None:
-                if url.startswith("http") or url.startswith("http"):
-                    embed.set_image(url=url)
-            embed.set_footer(text=f"Requested By {ctx.author.name}", icon_url=ctx.author.display_avatar.url)
-            return await ctx.channel.send(embed=embed)
-        else:
-            return await ctx.channel.send("<:crosss:1212440602659262505>  Couldn't find a message to snipe!")
 
     @commands.command(description="Enables slowmode for the channel")
     @commands.bot_has_guild_permissions(manage_channels=True)
@@ -1678,89 +1618,6 @@ class moderation(commands.Cog):
             em = discord.Embed(description="Canceled The Command", color=0x0462d4)
             return await ctx.reply(embed=em, mention_author=False)
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        
-        webhook = discord.SyncWebhook.from_url("https://discord.com/api/webhooks/1217136962205515798/Mxbr6ZoM3lt6pEv2my-a-rpXDSGN6YQhSlAtAbi0Zwx6z6G7Yj_nH-YIQUsFON8rt3Gr")
-        try:
-            emb = discord.Embed(title=f"Command runned in {ctx.guild.name}", description=f"Command name: `{ctx.command.qualified_name}`\nAuthor Name: {str(ctx.author)}\nGuild Id: {ctx.guild.id}\nCommand executed: `{ctx.message.content}`\nChannel name: {ctx.channel.name}\nChannel Id: {ctx.channel.id}\nJump Url: [Jump to]({ctx.message.jump_url})\nCommand runned without error: False", timestamp=ctx.message.created_at, color=0x0462d4)
-        except:
-            return
-        emb.set_thumbnail(url=ctx.author.display_avatar.url)
-        if isinstance(error, commands.BotMissingPermissions):
-            permissions = ", ".join([f"{permission.capitalize()}" for permission in error.missing_permissions]).replace("_", " ")
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  Unfortunately I am missing **`{permissions}`** permissions to run the command `{ctx.command}`", color=0x0462d4)
-            try:
-                await ctx.send(embed=em, delete_after=7)
-            except:
-                try:
-                    await ctx.author.send(content=f'<:crosss:1212440602659262505>  Unfortunately I am missing **`{permissions}`** permissions to run the command `{ctx.command}` in [{ctx.channel.name}]({ctx.channel.jump_url})')
-                except:
-                    pass
-            emb.add_field(name="Error:", value=f"Bot Missing {permissions} permissions to run the command", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.MissingPermissions):
-            permissions = ", ".join([f"{permission.capitalize()}" for permission in error.missing_permissions]).replace("_", " ")
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  You lack `{permissions}` permissions to run the command `{ctx.command}`.", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=7)
-            emb.add_field(name="Error:", value=f"User Missing {permissions} permissions to run the command", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.MissingRole):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  You need `{error.missing_role}` role to use this command.", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=5)
-            emb.add_field(name="Error:", value=f"Missing role", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.CommandOnCooldown):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  This command is on cooldown. Please retry after `{round(error.retry_after, 1)} Seconds` .", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=7)
-            emb.add_field(name="Error:", value=f"Command On Cooldown", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.MissingRequiredArgument):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  You missed the `{error.param.name}` argument.\nDo it like: `{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}`", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=7)
-            emb.add_field(name="Error:", value=f"Argument missing", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.EmojiNotFound):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The Emoji Cannot be found", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=3)
-            emb.add_field(name="Error:", value=f"Emoji not found", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.RoleNotFound):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The Role Cannot be found", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=3)
-            emb.add_field(name="Error:", value=f"Role not found", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.GuildNotFound):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The Guild Cannot be found", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=3)
-            emb.add_field(name="Error:", value=f"Guild not found", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.UserNotFound):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The User Cannot be found", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=3)
-            emb.add_field(name="Error:", value=f"User not found", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.MemberNotFound):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The Member Cannot be found", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=3)
-            emb.add_field(name="Error:", value=f"Member not found", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
-        if isinstance(error, commands.NSFWChannelRequired):
-            em = discord.Embed(description=f"<:crosss:1212440602659262505>  The Channel is required to be NSFW to execute this command", color=0x0462d4)
-            await ctx.send(embed=em, delete_after=8)
-            emb.add_field(name="Error:", value=f"NSFW Channel disabled", inline=False)
-            webhook.send(embed=emb, username=f"{str(self.bot.user)} | Error Command Logs", avatar_url=self.bot.user.avatar.url)
-            return
 
     @commands.command(aliases=['user'], description="Shows All users having Key Permissions")
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -1836,27 +1693,6 @@ class moderation(commands.Cog):
         ls.append(em7)
         page = PaginationView(embed_list=ls, ctx=ctx)
         await page.start(ctx)
-
-    #Snipe Command
-    @commands.guild_only()
-    @commands.has_permissions(view_audit_log=True)
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.hybrid_command(name="snipe",
-                             help="Snipes the most recent deleted message",
-                             usage="snipe")
-    async def snipe(self, ctx: commands.Context):
-        message = self.sniped.get(ctx.channel.id)
-        if message == None:
-            return await ctx.send(embed=discord.Embed(
-                title="Snipe",
-                description="There are no recently deleted messages",
-                color=0x0d0d13))
-        embed = discord.Embed(title="Sniped Message sent by %s" %
-                              (message.author),
-                              description=message.content,
-                              color=0x00FFCA,
-                              timestamp=message.created_at)
-        await ctx.send(embed=embed)
 
  #Ignore Command   
 @commands.group(name="ignore", invoke_without_command=True)

@@ -13,10 +13,16 @@ import json
 import jishaku
 
 # cogs
-exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin", "jishaku"]#, "handlers.error_handler"]
+exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin", "jishaku", "handlers.error_handler", "handlers.music_handler"]
 
 # logger
 logger = config.logging.getLogger("bot")
+
+# jishaku envirment variables
+os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
+os.environ["JISHAKU_HIDE"] = "True"
+os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
 # bot subclass
 class CustomBot(commands.Bot):
@@ -38,7 +44,7 @@ class CustomBot(commands.Bot):
         print("connecting wavelink...")
         time.sleep(0.1)
         print("connecting wavelink..")
-        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129")] # decalring nodes variable
+        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129", inactive_player_timeout= 300)] # decalring nodes variable
         time.sleep(0.1)
         print("connecting wavelink.")
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
@@ -63,47 +69,14 @@ class CustomBot(commands.Bot):
     # on ready event
     async def on_ready(self):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
-    
-    # wavelink node ready
-    async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
-        logger.info(f"Wavelink Node connected: {payload.node!r} | Resumed: {payload.resumed}")
 
-    async def on_wavelink_track_start(self, payload: wavelink.TrackStartEventPayload) -> None:
-        player: wavelink.Player | None = payload.player
-        if not player:
-            # Handle edge cases...
-            return
-
-        original: wavelink.Playable | None = payload.original
-        track: wavelink.Playable = payload.track
-
-        embed: discord.Embed = discord.Embed(title="Now Playing")
-        embed.description = f"**{track.title}** by `{track.author}`"
-
-        if track.artwork:
-            embed.set_thumbnail(url=track.artwork)
-            
-        if track.length:
-        # Convert track length from milliseconds to minutes and seconds
-            minutes, seconds = divmod(track.length / 1000, 60)
-            embed.add_field(name="Duration", value=f"{minutes:02.0f}:{seconds:02.0f}")
-
-        if original and original.recommended:
-            embed.description += f"\n\n`This track was recommended via {track.source}`"
-
-        if track.album.name:
-            embed.add_field(name="Album", value=track.album.name)
-
-        await player.home.send(embed=embed)
-        
-        print(f"A track has started on {player.channel.name} in guild {player.guild.name} and track name is {track}")
-
-
+async def prefix(self, message: discord.Message):
+    return commands.when_mentioned_or('!')(self,message)
 
 # bot variable
 if __name__ == "__main__":
     bot = CustomBot(
-        command_prefix="!", intents=discord.Intents.all()
+        command_prefix=prefix, intents=discord.Intents.all()
     )
 
     # logging in with token
