@@ -180,5 +180,8 @@ class Owner(commands.Cog):
             await ctx.send(embed=paginator.initial, view=paginator)
         else:
             await ctx.send("No servers found.")
+
+
+
 async def setup(bot):
     await bot.add_cog(Owner(bot))

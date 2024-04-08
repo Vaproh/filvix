@@ -1,4 +1,5 @@
 # importing discord modules
+import typing
 import wavelink
 import discord
 from discord.ext import commands
@@ -13,12 +14,40 @@ from typing import cast
 # importing utility modules
 import jishaku
 import os
+import time
 
 # env variables
 os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
 os.environ["JISHAKU_HIDE"] = "True"
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
+
+
+#jiskhau Owner Id ( Not Working )
+def is_owner_():
+    async def predicate(ctx):
+        # Check if the user is the owner of the bot or has a specific role
+        return ctx.author.id == 1195470182831894558  
+    return commands.check(predicate)
+
+
+
+# just read the func name ;-;
+def convert_to_minutes(milliseconds: int) -> str:
+    """Converts milliseconds to minutes and seconds in a proper way.
+
+    Args:
+        milliseconds (int): The number of milliseconds to convert.
+
+    Returns:
+        str: The converted time in minutes and seconds.
+    """
+
+    seconds, milliseconds = divmod(milliseconds, 1000)
+    minutes, seconds = divmod(seconds, 60)
+    return f"{minutes:02.0f}:{seconds:02.0f}"
+
+
 
 # class starts here
 class Music(commands.Cog):
@@ -92,6 +121,22 @@ class Music(commands.Cog):
     @commands.hybrid_command()
     async def skip(self, ctx) -> None:
         """Skip the current song."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
         if not player:
             return
@@ -104,6 +149,22 @@ class Music(commands.Cog):
     @commands.hybrid_command()
     async def nightcore(self, ctx) -> None:
         """Set the filter to a nightcore style."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
         if not player:
             return
@@ -119,6 +180,22 @@ class Music(commands.Cog):
     @commands.hybrid_command(name="toggle", aliases=["pause", "resume"])
     async def pause_resume(self, ctx) -> None:
         """Pause or Resume the Player depending on its current state."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
         if not player:
             return
@@ -130,6 +207,19 @@ class Music(commands.Cog):
     @commands.hybrid_command(aliases=["vol"])
     async def volume(self, ctx, value: int) -> None:
         """Change the volume of the player."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client 
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
         if not player:
             return
@@ -138,9 +228,22 @@ class Music(commands.Cog):
         await ctx.send(f"Volume set to {value}.")
 
     # Disconnect command
-    @commands.hybrid_command(aliases=["dc", "stop"])
-    async def disconnect(self, ctx) -> None:
+    @commands.hybrid_command(aliases=["dc", "disconnect"])
+    async def stop(self, ctx) -> None:
         """Disconnect the Player."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client    
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
         player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
         if not player:
             return
@@ -151,23 +254,24 @@ class Music(commands.Cog):
     @commands.command(aliases=['shuf'])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def shuffle(self, ctx) -> None:
-        """Now playing."""
+        """Shuffle the queue."""
         vc: wavelink.player
         player: wavelink.Player = ctx.voice_client
 
+        # checking bot is in vc, user is in vc,etc
         if not ctx.voice_client:
             embed = discord.Embed(description="I am not in any vc.")
-            return await ctx.reply(embed=embed, mention_author=False)     
+            return await ctx.reply(embed=embed) # bot is not in vc
         if ctx.voice_client is None:
             embed2 = discord.Embed(description="You are not in a voice channel.")
-            return await ctx.reply(embed=embed2, mention_author=False)
+            return await ctx.reply(embed=embed2) # user is not in vc
         vc: wavelink.Player = ctx.voice_client
         if not vc.playing:
             embed3 = discord.Embed(description="I am not playing any song.")
-            return await ctx.reply(embed=embed3, mention_author=False)       
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
         if ctx.author.voice.channel.id != vc.channel.id:
             embed4 = discord.Embed(description="You are in not the same voice channel.")
-            return await ctx.reply(embed=embed4, mention_author=False)
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
         
         player.queue.shuffle()
         await ctx.send("Queue shuffled.")
@@ -175,7 +279,24 @@ class Music(commands.Cog):
     # now playing command
     @commands.hybrid_command(aliases=["nowp", "np"])
     async def nowplaying(self, ctx) -> None:
-        """Disconnect the Player."""
+        """Show the current playing song."""
+        
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
+        
         vc: wavelink.Player = ctx.voice_client
 
         await ctx.send(f"playing `{vc.current.title}` by `{vc.current.author}` in `{vc.channel.name}`.")
@@ -183,27 +304,227 @@ class Music(commands.Cog):
     @commands.command(aliases=['q'], help="Look Into The Queue", usage = "queue")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def queue(self, ctx):
+        
+        # checking bot is in vc, user is in vc,etc
         if not ctx.voice_client:
             embed = discord.Embed(description="I am not in any vc.")
-            return await ctx.reply(embed=embed, mention_author=False)     
+            return await ctx.reply(embed=embed) # bot is not in vc
         if ctx.voice_client is None:
             embed2 = discord.Embed(description="You are not in a voice channel.")
-            return await ctx.reply(embed=embed2, mention_author=False)
+            return await ctx.reply(embed=embed2) # user is not in vc
         vc: wavelink.Player = ctx.voice_client
         if not vc.playing:
             embed3 = discord.Embed(description="I am not playing any song.")
-            return await ctx.reply(embed=embed3, mention_author=False)       
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
         if ctx.author.voice.channel.id != vc.channel.id:
             embed4 = discord.Embed(description="You are in not the same voice channel.")
-            return await ctx.reply(embed=embed4, mention_author=False)
-        queue = enumerate(list(vc.queue), start=1)
-        track_list = '\n'.join(f'[{num}] {track.title}' for num, track in queue)
-        length_seconds = round(vc.current.length) / 1000
-        hours, remainder = divmod(length_seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        duration_str = f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
-        embed5 = discord.Embed(description=f'**__Now Playing__**\n  {vc.current.title}・{duration_str}\n\n```\n{track_list}```')
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
+        queue = enumerate(list(vc.queue), start=1) # queue list
+        
+        track_list = '\n'.join(f'[{num}] {track.title}' for num, track in queue) # track list
+        
+        length_seconds = round(vc.current.length) / 1000 # length of song
+        
+        hours, remainder = divmod(length_seconds, 3600) # secs converter.
+        
+        minutes, seconds = divmod(remainder, 60) # another converter..
+        
+        duration_str = f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}" # another converter...
+        
+        embed5 = discord.Embed(description=f'**__Now Playing__**\n  {vc.current.title}・{duration_str}\n\n```\n{track_list}```') # embed
+        
         await ctx.reply(embed=embed5, mention_author=False)
+        
+    @commands.command(aliases=['cq', "cls"], help="Clear The Queue", usage = "clearqueue")
+    async def clearqueue(self, ctx):
+        
+                # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+
+        vc.queue.clear()
+        embed5 = discord.Embed(description="Successfully Cleared The Queue.")
+        await ctx.reply(embed=embed5, mention_author=False)
+        
+    @commands.command()
+    async def join(self, ctx) -> None:
+        """Join the voice channel of the message author."""
+        
+        if ctx.author.voice.channel is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if vc is not None and vc.playing:
+            embed3 = discord.Embed(description=f"I am playing songs in another channel named `{vc.channel.name}`")
+            return await ctx.reply(embed=embed3) # bot is not playing songs
+        
+        await ctx.author.voice.channel.connect(cls=wavelink.Player, reconnect=True, self_deaf=True)
+        await ctx.send("Successfully joined the voice channel.")
+    
+    @commands.command()
+    async def previous(self, ctx) -> None:
+        """Play the previous song in the queue."""
+
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
+        player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
+        if not player:
+            return
+
+        if player.queue.history:
+            previous_track = player.queue.history[0]
+            await player.queue.put_wait(previous_track)
+            await player.stop()
+            await ctx.send(f"Now playing the previous track: {previous_track.title}")
+        else:
+            await ctx.send("There is no previous track to play.")
+            
+    @commands.command()
+    async def grab(self, ctx, *, query: str) -> None:
+        """Grab the song info and send it to your DM."""
+
+        tracks: wavelink.Search = await wavelink.Playable.search(query)
+        
+        if not tracks:
+            await ctx.send(f"{ctx.author.mention} - Could not find any tracks with that query. Please try again.")
+            return
+
+        if isinstance(tracks, wavelink.Playlist):
+            # tracks is a playlist...
+            embed = discord.Embed(title=f"Playlist: {tracks.name}", description=f"**Tracks:**\n{', '.join([track.title for track in tracks.tracks])}")
+            embed.set_thumbnail(url=tracks.thumbnail)
+            await ctx.author.send(embed=embed)
+        else:
+            track: wavelink.Playable = tracks[0]
+            embed = discord.Embed(title=track.title, description=f"**Artist:** {track.author}\n**Album:** {track.album.name}\n**Duration:** {convert_to_minutes(track.length)}")
+            embed.set_thumbnail(url=track.artwork)
+            await ctx.author.send(embed=embed)
+            
+    @commands.hybrid_command()
+    async def loop(self, ctx, mode: str = None) -> None:
+        """Loop the current song."""
+
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
+        player: wavelink.Player = ctx.voice_client
+        
+        if mode == None:
+            wavelink.QueueMode.loop
+            await ctx.send(f"Looping is now enabled for track `{player.current.title}`.")
+        elif mode == "all":
+            wavelink.QueueMode.loop_all
+            await ctx.send(f"Looping is now enable for the entire queue.")
+        elif mode == "off":
+            wavelink.QueueMode.normal
+            await ctx.send("Looping is now disabled.")
+
+    @commands.hybrid_command()
+    async def remove(self, ctx, index: int) -> None:
+        """Remove a song from the queue."""
+
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+        
+        player: wavelink.Player = cast(wavelink.Player, ctx.voice_client)
+        if not player:
+            return
+
+        if index < 1 or index > len(player.queue):
+            await ctx.send("Invalid Song number.")
+            return
+
+        removed_track = player.queue.remove(index - 1)
+        await ctx.send(f"Removed **`{removed_track.title}`** from the queue.")
+
+    @commands.command()
+    async def skipto(self, ctx, position: int) -> None:
+        """Skip to a specific song in the queue."""
+
+        # checking bot is in vc, user is in vc,etc
+        if not ctx.voice_client:
+            embed = discord.Embed(description="I am not in any vc.")
+            return await ctx.reply(embed=embed) # bot is not in vc
+        if ctx.voice_client is None:
+            embed2 = discord.Embed(description="You are not in a voice channel.")
+            return await ctx.reply(embed=embed2) # user is not in vc
+        vc: wavelink.Player = ctx.voice_client
+        if not vc.playing:
+            embed3 = discord.Embed(description="I am not playing any song.")
+            return await ctx.reply(embed=embed3) # bot is not playing songs       
+        if ctx.author.voice.channel.id != vc.channel.id:
+            embed4 = discord.Embed(description="You are in not the same voice channel.")
+            return await ctx.reply(embed=embed4) # user is not in the same channel as bot
+            
+        # player
+        player: wavelink.Player = typing.cast(wavelink.Player,ctx.voice_client)
+            
+        # checks index
+        if isinstance(position,str):
+            position = int(position)
+        if len(player.queue) ==0:
+            return await ctx.send("No songs in queue to skip to.")
+        if position:
+            if position > len(player.queue):
+                return await ctx.send(f"Position exceeds queue count of {len(player.queue)}")
+            else:
+                new_track = player.queue[position-1]
+                player.queue.delete(position-1)
+                await player.play(new_track)
+        
+        await ctx.send(f"Skipped to **`{player.current.title}`**.")
+
+    
+
 
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Music(bot))
