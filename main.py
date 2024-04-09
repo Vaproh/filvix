@@ -13,7 +13,7 @@ import json
 import jishaku
 
 # cogs
-exts = ["commands.moderation", "commands.music", "commands.utility", "commands.admin", "jishaku", "handlers.error_handler", "handlers.music_handler"]
+exts = ["commands.music", "commands.utility", "commands.help","jishaku", "handlers.error_handler", "handlers.music_handler"]
 
 # logger
 logger = config.logging.getLogger("bot")
@@ -44,7 +44,7 @@ class CustomBot(commands.Bot):
         print("connecting wavelink...")
         time.sleep(0.1)
         print("connecting wavelink..")
-        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129", inactive_player_timeout= 300)] # decalring nodes variable
+        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129", inactive_player_timeout= 10)] # decalring nodes variable
         time.sleep(0.1)
         print("connecting wavelink.")
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...

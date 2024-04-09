@@ -7,6 +7,10 @@ from main import CustomBot
 
 # importing utility modules
 import wavelink
+from wavelink import Player
+from typing import cast
+
+# importing config file
 import config
 
 # logger
@@ -40,7 +44,7 @@ class MusicHandler(commands.Cog):
     # on track start event
     @commands.Cog.listener()
     async def on_wavelink_track_start(self, payload: wavelink.TrackStartEventPayload) -> None:
-        player: wavelink.Player | None = payload.player
+        player: Player | None = payload.player
         if not player:
             # Handle edge cases...
             return
@@ -49,9 +53,9 @@ class MusicHandler(commands.Cog):
         track: wavelink.Playable = payload.track
 
         embed_play = discord.Embed(color=config.color_main)
-        embed_play.set_author(name=f"- Now Playing!", url=track.uri, icon_url="https://cdn.discordapp.com/emojis/1226964487572029554.gif?size=96&quality=lossless")
+        embed_play.set_author(name=f"Playing!", url=track.uri, icon_url="https://cdn.discordapp.com/emojis/1226964487572029554.gif?size=96&quality=lossless")
         embed_play.set_image(url=track.artwork)
-        embed_play.add_field(name="Track", value=f"[{track.title}]({track.uri})")
+        embed_play.add_field(name="Track", value=f"[{track.title}]({track.uri})", inline=False)
         embed_play.add_field(name="Track Author", value=f"`{track.author}`")
         embed_play.add_field(name="Track Length", value=f"{convert_to_minutes(track.length)}")
         source = track.source
@@ -63,7 +67,7 @@ class MusicHandler(commands.Cog):
             embed_play.add_field(name="Track Source", value=f"{track.source}")
         embed_play.add_field(name="Autoplay", value=f"On (Default)")
         embed_play.set_footer(icon_url=self.bot.user.avatar.url, text=config.footer_text)
-
+        
         await player.home.send(embed=embed_play)
         
         logger.info(f"A track has started on `{player.channel.name}` in guild `{player.guild.name}` and track name is {track}")

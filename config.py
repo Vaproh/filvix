@@ -80,4 +80,4 @@ color_sec = 0x424769 # secondary color
 color_err = 0x7077A1 # error color
 
 # text
-footer_text = "is Zoynix bot is best right? - 2024"
+footer_text = "is zoynix bot is best right? - 2024"

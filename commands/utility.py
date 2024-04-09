@@ -25,7 +25,6 @@ def get_virtual_memory_usage():
 class Utility(commands.Cog):
     def __init__(self, bot: CustomBot):
         self.bot = bot
-        self.custom_responses = self.load_custom_responses()
 
     # botinfo command
     @commands.hybrid_command(name="botinfo",
@@ -83,18 +82,18 @@ class Utility(commands.Cog):
 
 
     #Invite
-    @commands.hybrid_command(name="invite", aliases=['inv'])
+    @commands.command(name="invite", aliases=['inv'])
     async def invite(self, ctx: commands.Context):
             embed = discord.Embed(
                 description=
-                "> • [Click Here To Invite Zoynix To Your Server](https://discord.com/oauth2/authorize?client_id=1213860294301061122&permissions=8&scope=bot)\n> • [Click Here To Join My Support Server](https://discord.gg/sxhGCtjX9R)",
+                "> • [Click Here To Invite Filvix To Your Server](https://discord.com/oauth2/authorize?client_id=1223267226719748197&permissions=8&scope=bot)\n> • [Click Here To Join My Support Server](https://discord.gg/8PNTDecC)",
                 color=0x0565ff)
             embed.set_author(name=f"{ctx.author.name}",
                             icon_url=f"{ctx.author.avatar}")
             await ctx.send(embed=embed)
 
     #Membercount  
-    @commands.hybrid_command(name="membercount",
+    @commands.command(name="membercount",
                              help="Get total member count of the server",
                              usage="membercount",
                              aliases=["mc"])
@@ -125,10 +124,10 @@ class Utility(commands.Cog):
         days, hours = divmod(hours, 24)
         uptime_str = "```{:d}d {:02d}h {:02d}m {:02d}s```".format(days, hours, minutes, seconds)
 
-        embed = discord.Embed(title="Arch Uptime", description=uptime_str, color=0x0565ff)
+        embed = discord.Embed(title="Filvix Uptime", description=uptime_str, color=0x0565ff)
         member = ctx.guild.get_member(ctx.author.id)
         if member:
-            embed.set_author(name=f"Arch Uptime",icon_url=self.bot.user.display_avatar.url)
+            embed.set_author(name=f"Filvix Uptime",icon_url=self.bot.user.display_avatar.url)
             embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.display_avatar.url)
         else:
             embed.set_footer(text=f"Requested by {ctx.author.name}")
@@ -264,41 +263,6 @@ class Utility(commands.Cog):
                     icon_url=ctx.author.avatar.url
                     if ctx.author.avatar else ctx.author.default_avatar.url)
         await ctx.send(embed=embed)
-
-
-     # Auto Responder  
-    def load_custom_responses(self):
-        try:
-            with open("custom_responses.json", "r") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            return {}
-
-    def save_custom_responses(self):
-        with open("custom_responses.json", "w") as f:
-            json.dump(self.custom_responses, f)
-
-    @commands.command(name="addresponse", help="Add a custom response for a trigger.")
-    @commands.has_permissions(administrator=True)
-    async def add_custom_response(self, ctx, trigger, *, response):
-        # Allow only administrators to add custom responses
-        self.custom_responses[trigger.lower()] = response
-        self.save_custom_responses()
-        await ctx.send(f"Custom response added for trigger: {trigger}")
-
-    @commands.command(
-        name="removeresponse", help="Remove a custom response for a trigger."
-    )
-    @commands.has_permissions(administrator=True)
-    async def remove_custom_response(self, ctx, trigger):
-        # Allow only administrators to remove custom responses
-        if trigger.lower() in self.custom_responses:
-            del self.custom_responses[trigger.lower()]
-            self.save_custom_responses()
-            await ctx.send(f"Custom response removed for trigger: {trigger}")
-        else:
-            await ctx.send(f"No custom response found for trigger: {trigger}")
-
 
 # add cogs
 async def setup(bot: CustomBot) -> None:
