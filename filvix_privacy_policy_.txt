@@ -1,0 +1,49 @@
+**Privacy Policy for Filvix Discord Bot**
+
+This Privacy Policy outlines how Filvix Discord Bot ("Filvix" or "the Bot") collects, uses, and protects your personal information when you use Filvix on Discord. Your privacy is important to us, and we are committed to protecting your personal data.
+
+**1. Information We Collect**
+
+a. **Discord User ID:** Filvix collects your Discord user ID to provide its services and functionalities within Discord servers.
+
+b. **Server Information:** Filvix may collect information about the Discord servers where it is installed, including server IDs, channel IDs, and server settings. This information is used to provide server-specific functionalities.
+
+c. **Usage Data:** Filvix may collect usage data, such as commands executed, timestamps, and interactions with the Bot, to improve its performance and user experience.
+
+**2. How We Use Information**
+
+a. **Providing Services:** We use the collected information to provide Filvix's functionalities within Discord servers, including moderation tools, entertainment commands, and utility features.
+
+b. **Improving Services:** We analyze usage data to identify trends, troubleshoot issues, and enhance Filvix's performance and features.
+
+c. **Communication:** We may use your Discord user ID to communicate with you about Filvix-related updates, maintenance, or important announcements.
+
+**3. Information Sharing and Disclosure**
+
+a. **With Your Consent:** We may share your information with third parties if you have given us explicit consent to do so.
+
+b. **Service Providers:** We may engage third-party service providers to assist us in providing and maintaining Filvix. These service providers will have access to your information only to perform tasks on our behalf and are obligated not to disclose or use it for any other purpose.
+
+c. **Legal Compliance:** We may disclose your information if required to do so by law or in response to valid legal requests, such as subpoenas or court orders.
+
+**4. Data Retention**
+
+We will retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy unless a longer retention period is required or permitted by law.
+
+**5. Security**
+
+We employ appropriate measures to protect the information collected by Filvix from unauthorized access, alteration, disclosure, or destruction.
+
+**6. Children's Privacy**
+
+Filvix is not intended for use by individuals under the age of 13. We do not knowingly collect personal information from children under 13. If you believe that we have inadvertently collected personal information from a child under 13, please contact us immediately.
+
+**7. Changes to This Privacy Policy**
+
+We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+
+**8. Contact Us**
+
+If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at discord.gg/archdev .
+
+By using Filvix, you agree to the terms of this Privacy Policy. If you do not agree with the terms of this Privacy Policy, please do not use Filvix.
