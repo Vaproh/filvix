@@ -1,6 +1,5 @@
 import logging
 from logging.config import dictConfig
-from tabnanny import verbose
 
 # token
 DISCORD_TOKEN =(

@@ -1,0 +1,28 @@
+**Terms of Service (TOS) for Filvix Discord Bot**
+
+Welcome to Filvix! Before you start using the Filvix Discord Bot ("Filvix" or "the Bot"), please read these Terms of Service ("Terms") carefully. By using Filvix, you agree to be bound by these Terms. If you do not agree with any of these Terms, you should not use Filvix.
+
+1. **Acceptance of Terms**: By using Filvix, you acknowledge that you have read, understood, and agree to be bound by these Terms.
+
+2. **Description of Filvix**: Filvix is a Discord bot designed to provide various features and services within Discord servers, including but not limited to moderation tools, entertainment commands, and utility functionalities.
+
+3. **Use of Filvix**:
+   a. Filvix is provided solely for personal and non-commercial use. You may not use Filvix for any commercial purposes without our prior written consent.
+   b. You agree not to use Filvix for any illegal or unauthorized purpose.
+   c. You agree not to abuse, harass, threaten, or impersonate others while using Filvix.
+
+4. **User Content**: By using Filvix, you may submit, upload, or otherwise make available content, including text, images, or other materials ("User Content"). You retain ownership of any intellectual property rights that you hold in your User Content. However, by submitting User Content to Filvix, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, adapt, modify, publish, distribute, and display such User Content in connection with providing and improving Filvix.
+
+5. **Privacy**: We are committed to protecting your privacy. Our Privacy Policy governs the collection and use of personal information related to your use of Filvix.
+
+6. **Limitation of Liability**: To the fullest extent permitted by applicable law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of Filvix.
+
+7. **Termination**: We reserve the right to suspend or terminate your access to Filvix at any time, with or without cause, and with or without notice.
+
+8. **Changes to Terms**: We reserve the right to modify or replace these Terms at any time. Your continued use of Filvix after any such changes constitutes your acceptance of the new Terms.
+
+9. **Governing Law**: These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.
+
+10. **Contact Us**: If you have any questions about these Terms, please contact us at discord.gg/archdev.
+
+Thank you for using Filvix! We hope you enjoy the features and services it provides. If you have any questions or concerns, please feel free to reach out to us.

@@ -9,6 +9,8 @@ import config
 import signal
 import os
 import wavelink
+from wavelink import Player
+import asyncio
 import json
 import jishaku
 
@@ -23,6 +25,14 @@ os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
 os.environ["JISHAKU_HIDE"] = "True"
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
+
+# Status Cycle 
+statuses = [discord.Status.dnd, discord.Status.idle, discord.Status.online]
+activities = [
+    discord.Activity(type=discord.ActivityType.watching, name="discord.gg/archcloud"),
+    discord.Activity(type=discord.ActivityType.listening, name="Jordan <3"),
+    discord.Activity(type=discord.ActivityType.listening, name="Vaproh <3")
+]
 
 # bot subclass
 class CustomBot(commands.Bot):
@@ -50,7 +60,7 @@ class CustomBot(commands.Bot):
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
         time.sleep(0.1)
         print("Wavelink connected successfully!")
-
+        
     # on connect event
     async def on_connect(self):
         # intro
@@ -65,13 +75,21 @@ class CustomBot(commands.Bot):
         # syncing slash commands
         self.tree.sync
         print(f"Slash commands are synced successfully for user {self.user.name} in {len(self.guilds)} servers!")
+        
+        status_index = 0
+        activity_index = 0
+        while True:
+            await self.change_presence(status=statuses[status_index], activity=activities[activity_index])
+            status_index = (status_index + 1) % len(statuses)
+            activity_index = (activity_index + 1) % len(activities)
+            await asyncio.sleep(10)  # Sleep for 10 seconds (10 seconds)
     
     # on ready event
     async def on_ready(self):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
 async def prefix(self, message: discord.Message):
-    return commands.when_mentioned_or('!')(self,message)
+    return commands.when_mentioned_or('::')(self,message)
 
 # bot variable
 if __name__ == "__main__":
