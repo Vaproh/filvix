@@ -666,7 +666,40 @@ class Music(commands.Cog):
         
         # seek func
         return await player.seek(position)
+    
+    # autoplay command
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def autoplay(self, ctx: commands.Context, input:str):
+        """
+        Turn autoplay on or off else partial!
+        """
 
+        # checking perms...
+        await check_perms(self,ctx)
+        
+        # checking input
+        if input == "on": # on autplay on parameter
+            
+            wavelink.AutoPlayMode.enabled # turn on autoplay
+            
+            return ctx.send("Autoplay has been enabled!")
+        
+        elif input == "off":
+            
+            wavelink.AutoPlayMode.disabled # turn off autoplay
+            
+            return ctx.send("autoplay has been turned off!")
+        
+        elif input == "partial":
+            
+            wavelink.AutoPlayMode.partial # read the line
+            
+            return ctx.send("autoplay has been set to partial!")
+        
+        else:
+            return ctx.send("invalid input")
+        
 # setup command
 async def setup(bot: CustomBot) -> None:
     await bot.add_cog(Music(bot))
