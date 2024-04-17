@@ -66,7 +66,7 @@ class Music(commands.Cog):
           vc: Player = ctx.voice_client
         if not ctx.guild:
             return
-        
+ 
         # joining vc...
         player: Player
         player = cast(Player, ctx.voice_client)  # type: ignore
