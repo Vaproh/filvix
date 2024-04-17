@@ -1,1 +1,1 @@
-INFO       - 2024-04-11 21:23:28,799 - music_handler   : Wavelink Node connected: `Node(identifier=BZHzTUm7fGmy4Ako, uri=http://lavalink.vaproh.cloud:2333, status=NodeStatus.CONNECTED, players=0)` | Resumed: `False`
+INFO       - 2024-04-17 17:56:00,140 - music_handler   : Wavelink Node connected: `Node(identifier=2FC51mc6acbo3Orb, uri=http://lavalink.vaproh.cloud:2333, status=NodeStatus.CONNECTED, players=0)` | Resumed: `False`

@@ -1,9 +1,12 @@
 import logging
 from logging.config import dictConfig
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # token
-DISCORD_TOKEN =(
-"MTIyMzI2NzIyNjcxOTc0ODE5Nw.GkMoZ6.rU14H6Bqv3szbk5P8pbOpu5sDxdZJusQbJeOxI"
+DISCORD_TOKEN =os.getenv(
+"DISCORD_TOKEN"
 )
 
 # logger dict and func
