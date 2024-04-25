@@ -1,6 +1,1 @@
-INFO       - 2024-04-17 18:16:48,092 - music_handler   : Wavelink Node connected: `Node(identifier=WXQe9Rwu8h05ATzB, uri=http://lavalink.vaproh.cloud:2333, status=NodeStatus.CONNECTED, players=0)` | Resumed: `False`
-INFO       - 2024-04-17 18:17:06,951 - music_handler   : A track has started on `voice 1` in guild `Bot Hub (Testing)` and track name is DVRST - Close Eyes
-INFO       - 2024-04-17 18:17:10,657 - music_handler   : A track has started on `voice 1` in guild `Bot Hub (Testing)` and track name is VØJ, Narvent - Memory Reboot (4K Music Video)
-INFO       - 2024-04-17 18:17:22,718 - music_handler   : A track has started on `voice 1` in guild `Bot Hub (Testing)` and track name is RAPTURE
-INFO       - 2024-04-17 18:17:50,100 - music_handler   : A track has started on `voice 1` in guild `Bot Hub (Testing)` and track name is The Lost Soul Down (Slowed & Reverb)
-INFO       - 2024-04-17 18:17:55,395 - music_handler   : A track has started on `voice 1` in guild `Bot Hub (Testing)` and track name is SHADXWBXRN, ARCHEZ, KXNVRA - PRINCE OF DARKNESS
+INFO       - 2024-04-25 09:58:48,404 - music_handler   : Wavelink Node connected: `Node(identifier=s49x8JAL4spP7G0a, uri=http://lavalink.vaproh.cloud:2333, status=NodeStatus.CONNECTED, players=0)` | Resumed: `False`

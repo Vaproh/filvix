@@ -20,12 +20,6 @@ exts = ["commands.music", "commands.utility", "commands.help","jishaku", "handle
 # logger
 logger = config.logging.getLogger("bot")
 
-# jishaku envirment variables
-os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
-os.environ["JISHAKU_HIDE"] = "True"
-os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
-
 # Status Cycle 
 statuses = [discord.Status.dnd, discord.Status.idle, discord.Status.online]
 activities = [
@@ -54,7 +48,7 @@ class CustomBot(commands.Bot):
         print("connecting wavelink...")
         time.sleep(0.1)
         print("connecting wavelink..")
-        nodes = [wavelink.Node(uri="http://lavalink.vaproh.cloud:2333", password="Doom129", inactive_player_timeout= 10)] # decalring nodes variable
+        nodes = [wavelink.Node(uri=config.lavalink_url, password=config.lavalink_password, inactive_player_timeout= 10)] # decalring nodes variable
         time.sleep(0.1)
         print("connecting wavelink.")
         await wavelink.Pool.connect(nodes=nodes, client=self, cache_capacity=100) # connecting...
@@ -72,9 +66,9 @@ class CustomBot(commands.Bot):
         Bot is online!
         \nPress Ctrl+C to exit""")
         
-        # syncing slash commands
-        self.tree.sync
-        print(f"Slash commands are synced successfully for user {self.user.name} in {len(self.guilds)} servers!")
+        # # syncing slash commands
+        # self.tree.sync
+        # print(f"Slash commands are synced successfully for user {self.user.name} in {len(self.guilds)} servers!")
         
         status_index = 0
         activity_index = 0

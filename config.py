@@ -2,12 +2,16 @@ import logging
 from logging.config import dictConfig
 import os
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(dotenv_path="./.env")
 
 # token
 DISCORD_TOKEN =os.getenv(
 "DISCORD_TOKEN"
 )
+
+# Lavalink
+lavalink_url = os.getenv("LAVALINK_URI")
+lavalink_password = os.getenv("LAVALINK_PASSWORD")
 
 # logger dict and func
 LOGGING_CONFIG = {
@@ -83,3 +87,9 @@ color_err = 0x7077A1 # error color
 
 # text
 footer_text = "is filvix bot is best right? - 2024"
+
+# jishaku envirment variables
+os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
+os.environ["JISHAKU_HIDE"] = "True"
+os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
