@@ -89,7 +89,7 @@ class CustomBot(commands.Bot):
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
 async def prefix(self, message: discord.Message):
-    return commands.when_mentioned_or('::')(self,message)
+    return commands.when_mentioned_or('::')(self ,message)
 
 # bot variable
 if __name__ == "__main__":
