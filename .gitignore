@@ -5,7 +5,10 @@ handlers/__pycache__
 
 # log files
 *.log
-logs
+/logs
 
 # .env hide
 .env
+
+# not to ignore the env example
+!.env.example
